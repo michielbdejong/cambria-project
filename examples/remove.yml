@@ -1,0 +1,2 @@
+lens:
+  - remove: { name: completed }

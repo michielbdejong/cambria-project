@@ -1,0 +1,7 @@
+lens:
+  - add:
+      name: user
+      type: object
+  - plunge:
+      name: login
+      host: user

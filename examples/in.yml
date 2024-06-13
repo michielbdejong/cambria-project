@@ -1,0 +1,6 @@
+lens:
+  - in:
+      name: user
+      lens:
+        - remove:
+            name: login

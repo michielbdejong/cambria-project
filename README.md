@@ -68,6 +68,193 @@ if (program.reverse) {
 const newDoc = applyLensToDoc(lens, doc, program.schema, targetDoc)
 console.log(JSON.stringify(newDoc, null, 4))
 ```
+## Lens Operations
+### add(name, type)
+Add a field
+Example lens file:
+```yml
+  - add:
+      name: completed
+      type: boolean
+```
+Effect:
+```sh
+$ echo '{"title":"Found a bug"}' | node ./dist/cli.js -l ./examples/add.yml
+{
+    "title": "Found a bug",
+    "completed": false
+}
+```
+### remove(name)
+Remove a field
+Example lens file:
+```yml
+  - remove: { name: completed }
+```
+Effect:
+```sh
+$ echo '{"title":"Found a bug","completed":true}' | node ./dist/cli.js -l ./examples/remove.yml
+{
+    "title": "Found a bug"
+}
+```
+
+### rename(source, destination)
+Rename a field
+Example:
+```yml
+  - rename:
+      source: title
+      destination: name
+```
+Effect:
+```sh
+$ echo '{"title":"Found a bug"}' | node ./dist/cli.js -l ./examples/rename.yml
+{
+    "name": "Found a bug"
+}
+```
+
+### hoist(name, host)
+Pull a field out of an object
+Example:
+```yml
+  - hoist:
+      name: login
+      host: user
+```
+Effect:
+```sh
+$ echo '{"title":"Found a bug", "user":{"login":"octocat"}}' | node ./dist/cli.js -l ./examples/hoist.yml
+{
+    "title": "Found a bug",
+    "user": {},
+    "login": "octocat"
+}
+```
+
+### plunge(name, host)
+Move a field into an existing object
+Example:
+```yml
+  - add:
+      name: user
+      type: object
+  - plunge:
+      name: login
+      host: user
+```
+Effect:
+```sh
+$ echo '{"title":"Found a bug", "login":"octocat"}' | node ./dist/cli.js -l ./examples/plunge.yml
+{
+    "title": "Found a bug",
+    "user": {
+        "login": "octocat"
+    }
+}
+```
+
+### head(name)
+Replace an array field by its first element
+Example:
+```yml
+  - head:
+      name: assignee
+```
+Effect:
+```sh
+$ echo '{"title":"Found a bug", "assignee":["octocat", "someone"]}' | node ./dist/cli.js -l ./examples/head.yml
+{
+    "title": "Found a bug",
+    "assignee": "octocat"
+}
+```
+### wrap(name)
+Replace a scalar field by an array containing it as its only element
+Example:
+```yml
+  - wrap:
+      name: assignee
+```
+Effect:
+```sh
+$ echo '{"title":"Found a bug", "assignee":"octocat"}' | node ./dist/cli.js -l ./examples/wrap.yml
+{
+    "title": "Found a bug",
+    "assignee": [
+        "octocat"
+    ]
+}
+```
+
+### in(name, lens)
+Apply a lens inside an object
+Example:
+```yml
+  - in:
+      name: user
+      lens:
+        - remove:
+            name: login
+```
+Effect:
+```sh
+$ echo '{"title":"Found a bug", "user":{"login":"octocat"}}' | node ./dist/cli.js -l ./examples/in.yml
+{
+    "title": "Found a bug",
+    "user": {}
+}
+```
+### map(lens)
+In an array, apply a lens to each item
+```yml
+lens:
+  - in:
+      name: assignees
+      lens:
+        - map:
+            lens:
+              - add:
+                  name: admin
+                  type: boolean
+```
+Effect:
+```sh
+$ echo '{"title":"Found a bug", "assignees":[{"login":"octocat"}]}' | node ./dist/cli.js -l ./examples/map.yml
+{
+    "title": "Found a bug",
+    "assignees": [
+        {
+            "login": "octocat",
+            "admin": false
+        }
+    ]
+}
+```
+
+### convert(name, destinationType, mapping)
+Convert an enumerable field to another set of values
+Example:
+```yml
+  - convert:
+      name: status
+      mapping:
+        # old to new
+        - open: todo
+          closed: done
+        # new to old
+        - todo: open
+          doing: open
+          done: closed```
+Effect:
+```sh
+$ echo '{"title":"Found a bug", "status":"open"}' | node ./dist/cli.js -l ./examples/convert.yml
+{
+    "title": "Found a bug",
+    "status": "todo"
+}
+```
 
 ## Install
 

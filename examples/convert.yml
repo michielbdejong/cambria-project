@@ -1,0 +1,11 @@
+lens:
+  - convert:
+      name: status
+      mapping:
+        # old to new
+        - open: todo
+          closed: done
+        # new to old
+        - todo: open
+          doing: open
+          done: closed

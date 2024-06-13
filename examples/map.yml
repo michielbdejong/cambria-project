@@ -1,0 +1,9 @@
+lens:
+  - in:
+      name: assignees
+      lens:
+        - map:
+            lens:
+              - add:
+                  name: admin
+                  type: boolean

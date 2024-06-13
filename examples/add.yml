@@ -1,0 +1,4 @@
+lens:
+  - add:
+      name: completed
+      type: boolean
