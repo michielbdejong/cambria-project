@@ -17,6 +17,7 @@ import {
   HeadProperty,
   ValueMapping,
   ConvertValue,
+  ExtractEntity,
 } from './lens-ops'
 
 export function addProperty(property: Property): AddProperty {
@@ -98,5 +99,18 @@ export function convertValue(
     mapping,
     sourceType,
     destinationType,
+  }
+}
+
+export function extract(
+  host: string,
+  name: string,
+  fields: string[]
+): ExtractEntity {
+  return {
+    op: 'extract',
+    host,
+    name,
+    fields
   }
 }

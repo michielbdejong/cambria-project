@@ -70,6 +70,20 @@ export interface ConvertValue {
   destinationType?: JSONSchema7TypeName
 }
 
+export interface ExtractEntity {
+  op: 'extract',
+  host: string,
+  name: string,
+  fields: string[]
+}
+
+export interface InsertEntity {
+  op: 'insert',
+  host: string,
+  name: string,
+  fields: string[]
+}
+
 export type LensOp =
   | AddProperty
   | RemoveProperty
@@ -81,5 +95,7 @@ export type LensOp =
   | LensIn
   | LensMap
   | ConvertValue
+  | ExtractEntity
+  | InsertEntity
 
 export type LensSource = LensOp[]

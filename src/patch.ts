@@ -208,6 +208,14 @@ function runLensOp(lensOp: LensOp, patchOp: MaybePatchOp): MaybePatchOp {
       return { ...patchOp, value: lensOp.mapping[0][stringifiedValue] }
     }
 
+    case 'extract': {
+      return patchOp;
+    }
+
+    case 'insert': {
+      return patchOp;
+    }
+
     default:
       assertNever(lensOp) // exhaustiveness check
   }

@@ -9,6 +9,8 @@ import {
   HeadProperty,
   WrapProperty,
   LensIn,
+  ExtractEntity,
+  InsertEntity
 } from './lens-ops'
 
 export const emptySchema = {
@@ -460,6 +462,14 @@ function convertValue(schema: JSONSchema7, lensOp: ConvertValue) {
   }
 }
 
+function extractEntity(schema: JSONSchema7, lensOp: ExtractEntity) {
+  return schema;
+}
+
+function insertEntity(schema: JSONSchema7, lensOp: InsertEntity) {
+  return schema;
+}
+
 function assertNever(x: never): never {
   throw new Error(`Unexpected object: ${x}`)
 }
@@ -486,7 +496,11 @@ function applyLensOperation(schema: JSONSchema7, op: LensOp) {
       return plungeProperty(schema, op.host, op.name)
     case 'convert':
       return convertValue(schema, op)
-
+    case 'extract':
+      return extractEntity(schema, op)
+    case 'insert':
+      return insertEntity(schema, op)
+      
     default:
       assertNever(op) // exhaustiveness check
       return null

@@ -167,6 +167,12 @@ function runLensOp(lensOp, patchOp) {
             }
             return Object.assign(Object.assign({}, patchOp), { value: lensOp.mapping[0][stringifiedValue] });
         }
+        case 'extract': {
+            return patchOp;
+        }
+        case 'insert': {
+            return patchOp;
+        }
         default:
             assertNever(lensOp); // exhaustiveness check
     }

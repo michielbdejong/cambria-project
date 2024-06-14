@@ -36,6 +36,10 @@ function reverseLensOp(lensOp) {
             const reversed = Object.assign(Object.assign({}, lensOp), { mapping, sourceType: lensOp.destinationType, destinationType: lensOp.sourceType });
             return reversed;
         }
+        case 'extract':
+            return Object.assign(Object.assign({}, lensOp), { op: 'insert' });
+        case 'insert':
+            return Object.assign(Object.assign({}, lensOp), { op: 'extract' });
         default:
             return assertNever(lensOp); // exhaustiveness check
     }

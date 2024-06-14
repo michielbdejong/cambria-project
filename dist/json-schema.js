@@ -329,6 +329,12 @@ function convertValue(schema, lensOp) {
                 default: defaults_1.defaultValuesByType(destinationType),
             } }) });
 }
+function extractEntity(schema, lensOp) {
+    return schema;
+}
+function insertEntity(schema, lensOp) {
+    return schema;
+}
 function assertNever(x) {
     throw new Error(`Unexpected object: ${x}`);
 }
@@ -354,6 +360,10 @@ function applyLensOperation(schema, op) {
             return plungeProperty(schema, op.host, op.name);
         case 'convert':
             return convertValue(schema, op);
+        case 'extract':
+            return extractEntity(schema, op);
+        case 'insert':
+            return insertEntity(schema, op);
         default:
             assertNever(op); // exhaustiveness check
             return null;

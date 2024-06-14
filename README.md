@@ -276,7 +276,7 @@ $ echo '{"title":"Found a bug", "assignees":[{"login":"octocat"}]}' | node ./dis
 Convert an enumerable field to another set of values
 Example:
 
-````yml
+```yml
 - convert:
     name: status
     mapping:
@@ -288,15 +288,48 @@ Example:
         doing: open
         done: closed
 ```
+
 Effect:
+
 ```sh
 $ echo '{"title":"Found a bug", "status":"open"}' | node ./dist/cli.js -l ./examples/convert.yml
 {
     "title": "Found a bug",
     "status": "todo"
 }
-````
+```
 
+### extract(host, name, fields)
+
+Convert an array of objects into two, by extracting some of the fields
+Example:
+
+```yml
+$ echo '{
+   "orders": [
+    {
+      "item":"anvil",
+      "quantity": 1,
+      "ship_date": "2/3/23",
+      "customer_name": "Wile E Coyote",
+      "customer_address": "123 Desert Station"
+    },
+    {
+      "item":"dynamite",
+      "quantity": 2,
+      "ship_date": null,
+      "customer_name": "Daffy Duck",
+      "customer_address": "White Rock Lake"
+    },
+    {
+      "item":"bird seed",
+      "quantity": 1,
+      "ship_date": null,
+      "customer_name": "Wile E Coyote",
+      "customer_address": "123 Desert Station"
+    }
+  ]
+}' | node ./dist/cli.js -l ./examples/extract.yml
 ## Install
 
 If you're using npm, run `npm install cambria`. If you're using yarn, run `yarn add cambria`. Then you can import it with `require('cambria')` as in the examples (or `import * as Cambria from 'cambria'` if using ES2015 or TypeScript).
@@ -304,3 +337,4 @@ If you're using npm, run `npm install cambria`. If you're using yarn, run `yarn 
 ## Tests
 
 `npm run test`
+```

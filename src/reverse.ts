@@ -69,8 +69,17 @@ function reverseLensOp(lensOp: LensOp): LensOp {
 
       return reversed
     }
-
+    case 'extract':
+      return {
+        ...lensOp,
+        op: 'insert'
+      }
+    case 'insert':
+      return {
+        ...lensOp,
+        op: 'extract'
+      }
     default:
-      return assertNever(lensOp) // exhaustiveness check
+    return assertNever(lensOp) // exhaustiveness check
   }
 }

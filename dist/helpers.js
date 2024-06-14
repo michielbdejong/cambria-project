@@ -3,7 +3,7 @@
 // (we might write our own parser later, but at least for now
 // this avoids seeing the raw json...)
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertValue = exports.map = exports.inside = exports.headProperty = exports.wrapProperty = exports.plungeProperty = exports.hoistProperty = exports.renameProperty = exports.removeProperty = exports.addProperty = void 0;
+exports.extract = exports.convertValue = exports.map = exports.inside = exports.headProperty = exports.wrapProperty = exports.plungeProperty = exports.hoistProperty = exports.renameProperty = exports.removeProperty = exports.addProperty = void 0;
 function addProperty(property) {
     return Object.assign({ op: 'add' }, property);
 }
@@ -75,4 +75,13 @@ function convertValue(name, mapping, sourceType, destinationType) {
     };
 }
 exports.convertValue = convertValue;
+function extract(host, name, fields) {
+    return {
+        op: 'extract',
+        host,
+        name,
+        fields
+    };
+}
+exports.extract = extract;
 //# sourceMappingURL=helpers.js.map
