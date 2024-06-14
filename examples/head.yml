@@ -1,3 +1,2 @@
 lens:
-  - head:
-      name: assignee
+  - head: { name: assignee }

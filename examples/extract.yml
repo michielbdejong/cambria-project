@@ -1,0 +1,10 @@
+lens:
+  - extract:
+    host: orders
+    name: customers
+    fields:
+      - customer_name
+      - customer_address
+    options:
+      deduplicate: true
+      identifier: autoincrement

@@ -1,3 +1,2 @@
 lens:
-  - wrap:
-      name: assignee
+  - wrap: { name: assignee }
